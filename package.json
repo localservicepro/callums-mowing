@@ -1,0 +1,14 @@
+{
+  "name": "callums-mowing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static marketing site for Callum's Mowing — Laidley, Lockyer Valley QLD",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "node build.js && node -e \"const h=require('http'),f=require('fs'),p=require('path');h.createServer((q,s)=>{let u=decodeURIComponent(q.url.split('?')[0]);let t=p.join(__dirname,u);if(!p.extname(t))t=p.join(t,'index.html');f.readFile(t,(e,d)=>{if(e){f.readFile(p.join(__dirname,'404.html'),(e2,d2)=>{s.writeHead(404,{'Content-Type':'text/html'});s.end(d2||'Not found')});return}const m={'.html':'text/html','.css':'text/css','.js':'text/javascript','.webp':'image/webp','.svg':'image/svg+xml','.xml':'application/xml','.txt':'text/plain'};s.writeHead(200,{'Content-Type':m[p.extname(t)]||'application/octet-stream'});s.end(d)})}).listen(8080,()=>console.log('http://localhost:8080'))\"",
+    "images": "bash scripts/fetch-images.sh"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

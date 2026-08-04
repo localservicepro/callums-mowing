@@ -1,0 +1,275 @@
+/** About, Contact and Thank You pages. */
+
+const { site, areas, services } = require("../data");
+const { faqSection, ctaSection, gallerySection } = require("../layout");
+
+const areaSentence = areas.join(", ").replace(/, ([^,]*)$/, " and $1");
+
+/* ------------------------------------------------------------------ about */
+
+const aboutFaqs = [
+  {
+    q: "Who owns and runs Callum's Mowing?",
+    a: "Callum Farmer owns and operates the business from Laidley, QLD. He quotes the jobs, works on the tools and answers the phone. There's no franchise structure and no subcontracting, so the person you speak to is the person doing the work.",
+  },
+  {
+    q: "What areas does Callum's Mowing service?",
+    a: `We work throughout ${areaSentence}, covering most of the Lockyer Valley between the Warrego Highway and the ranges. Properties inside our regular run don't attract a travel fee, and we can often fit in nearby addresses when we're already scheduled in the area.`,
+  },
+  {
+    q: "Are you insured?",
+    a: "Yes. We carry public liability insurance covering every job we take on, residential and commercial. Certificates of currency are available on request, which body corporates, real estate agents and commercial clients in Gatton and Laidley often ask for.",
+  },
+  {
+    q: "Why choose an owner-operator over a national franchise?",
+    a: "Consistency and accountability. The same person quotes your property, learns its quirks and cuts it every visit, so nothing needs re-explaining. Pricing stays direct without franchise fees layered on top, and if something isn't right, you're talking straight to the owner.",
+  },
+];
+
+const about = {
+  path: "about",
+  title: "About Callum's Mowing | Local Mowing Laidley QLD",
+  description:
+    "Meet the owner-operator behind Callum's Mowing — a local mowing business in Laidley QLD serving the Lockyer Valley with residential and acreage lawn care.",
+  breadcrumbs: [{ name: "About", path: "about" }],
+  faqs: aboutFaqs,
+  body: (p) => `
+  <section class="hero hero--page">
+    <img class="hero__media" src="${p}img/hero-fleet.webp" alt="Callum's Mowing ute, trailer and mowing equipment at a Laidley property" width="1600" height="900" fetchpriority="high" decoding="async" />
+    <div class="hero__scrim"></div>
+    <div class="shell hero__body">
+      <nav class="crumbs" aria-label="Breadcrumb" data-reveal><a href="${p}">${site.name}</a> / About</nav>
+      <h1 class="h-page" data-reveal>About Callum's Mowing — Local Mowing in Laidley and the Lockyer Valley</h1>
+      <p class="lede" data-reveal>One owner, one mowing standard, and a genuine stake in how this region looks. Here's who turns up when you book us.</p>
+      <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+    </div>
+  </section>
+
+  <section class="section section--sm">
+    <div class="shell grid-split">
+      <div data-reveal>
+        <h2 class="h-block">Built From a Single Mower and a Short Run of Neighbours</h2>
+        <p class="prose" style="margin-top:20px">Callum's Mowing started in Laidley the way most good trades do — one machine, a handful of properties, and word getting around. Today we service blocks right across the Lockyer Valley, from suburban yards in Gatton to multi-acre lifestyle properties out past Regency Downs.</p>
+        <p class="prose">Callum Farmer still runs every quote and works on the tools. That matters more than it sounds. When you call, you're talking to the person who will actually be standing on your lawn, which means nothing gets lost between a call centre, a franchisee and a subcontractor.</p>
+      </div>
+      <img class="media-frame" src="${p}img/fleet-mowers.webp" alt="Callum's Mowing ride-on mowers and equipment lined up in Laidley QLD" width="900" height="700" loading="lazy" decoding="async" data-reveal />
+    </div>
+  </section>
+
+  <section class="section section--sand section--sm">
+    <div class="shell grid-split">
+      <div data-reveal>
+        <h2 class="h-block">How We Approach Every Property</h2>
+        <p class="prose" style="margin-top:20px">We treat mowing as a trade, not a chore, and every mowing visit follows the same routine. Blades come off and get sharpened on a schedule, because a blunt blade tears grass and leaves those brown, frayed tips that make a fresh cut look tired within days. Cutting heights get adjusted to the season and the grass type rather than left on one setting all year.</p>
+        <p class="prose">We also finish the job. Edges get cut properly, clippings get blown off paths, driveways and entertaining areas, and gates get shut behind us. It's a small list, but it's the difference between a lawn that's been cut and a property that looks cared for.</p>
+      </div>
+      <div data-reveal>
+        <h2 class="h-block">We Know What Lockyer Valley Grass Does</h2>
+        <p class="prose" style="margin-top:20px">This region is not gentle on lawns. Summer storms come through and kikuyu can put on serious growth in a week. The black soil holds water long after the rain has stopped, so timing matters if you don't want ruts across a soft block. Winter brings bindii through thinning turf, and by the time you feel it underfoot it's already seeded.</p>
+        <p class="prose">Working the same suburbs year after year means we plan around all of it. We know which streets in Laidley and Plainland drain slowly, which acreage blocks need a dry run-up before we bring the ride-on in, and when to time weed treatment so it lands before seed set rather than after.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sm">
+    <div class="shell">
+      <h2 class="h-block" data-reveal>What Backs Us Up</h2>
+      <ul class="cards" style="list-style:none;margin:34px 0 0;padding:0" data-reveal-group>
+        <li class="card" data-reveal><strong>Fully insured</strong> with public liability cover on residential and commercial work.</li>
+        <li class="card" data-reveal><strong>${site.rating.value} stars across ${site.rating.count} Google reviews</strong> from customers throughout the Lockyer Valley.</li>
+        <li class="card" data-reveal><strong>Commercial-grade equipment</strong> maintained on a service schedule, including machines rated for slope work.</li>
+        <li class="card" data-reveal><strong>Seven services under one contractor</strong> across ${areaSentence}.</li>
+      </ul>
+    </div>
+  </section>
+
+  ${gallerySection(p, {
+    heading: "Our Recent Work in Laidley and the Lockyer Valley",
+    intro:
+      "A cross-section of the properties we've looked after recently — suburban, rural and everything between.",
+    items: [
+      {
+        img: "verge-after",
+        alt: "Residential lawn cut fortnightly in Laidley QLD",
+        caption: "Fortnightly Residential Cut – Laidley",
+      },
+      {
+        img: "acreage-garden",
+        alt: "Acreage property maintained at Hatton Vale",
+        caption: "Acreage Maintenance – Hatton Vale",
+      },
+      {
+        img: "hero-fleet",
+        alt: "Mowing equipment set up for slope work at Regency Downs",
+        caption: "Slope Mowing – Regency Downs",
+      },
+      {
+        img: "spraying",
+        alt: "Garden beds refreshed and treated in Gatton QLD",
+        caption: "Garden Refresh – Gatton",
+      },
+      {
+        img: "verge-mown",
+        alt: "Long fence line and verge cleared of growth in Plainland QLD",
+        caption: "Fence Line Clearing – Plainland",
+      },
+      {
+        img: "backyard-neat",
+        alt: "Commercial grounds kept tidy at Kensington Grove",
+        caption: "Commercial Grounds – Kensington Grove",
+      },
+    ],
+  })}
+
+  ${faqSection(aboutFaqs)}
+
+  ${ctaSection(p, {
+    heading: "Ready to Book?",
+    body: "If you need mowing in Laidley, Gatton, Plainland or anywhere across the Lockyer Valley, we'd be glad to quote your property. No call-out fee, no obligation.",
+  })}`,
+};
+
+/* ---------------------------------------------------------------- contact */
+
+const contactFaqs = [
+  {
+    q: "How do I get a lawn mowing quote in Laidley?",
+    a: `Call ${site.phoneDisplay} or email us with your suburb and approximate block size. Most standard residential properties in Laidley can be quoted over the phone within minutes. Larger or acreage blocks usually need a quick site visit, which we arrange at no cost.`,
+  },
+  {
+    q: "How much does a mowing service cost?",
+    a: "Price depends on block size, grass length, slope and edging required, with acreage quoted per acre. You'll always get a fixed figure before we start, not an hourly estimate that moves — and there's no call-out fee for the quote itself.",
+  },
+  {
+    q: "How quickly can you start?",
+    a: "It shifts with the season — spring and the weeks after heavy summer rain are our busiest periods, so it pays to call early if you need a property tidied before a specific date. Give us a ring and we'll tell you the next available slot on our Lockyer Valley run.",
+  },
+  {
+    q: "Do you need me to be home during the service?",
+    a: "No. Once we've quoted the property and you're happy with the price, most customers leave us to it. We just need gate access and any dogs secured. We'll message when the job is done and invoice afterwards.",
+  },
+  {
+    q: "Do you service commercial and rental properties?",
+    a: "Yes. We work with owners, property managers and commercial clients across Gatton and Laidley on set schedules, invoicing directly and providing completion photos where an agent requires them. Certificates of currency are available on request.",
+  },
+];
+
+const contact = {
+  path: "contact",
+  title: "Contact Callum's Mowing | Free Quote Laidley QLD",
+  description:
+    "Get a free lawn mowing quote in Laidley and across the Lockyer Valley. Call 0408 765 657 or send us your address and block size for a same-day price.",
+  breadcrumbs: [{ name: "Contact", path: "contact" }],
+  faqs: contactFaqs,
+  body: (p) => `
+  <section class="hero hero--page" style="background:var(--forest)">
+    <div class="shell hero__body">
+      <nav class="crumbs" aria-label="Breadcrumb" data-reveal><a href="${p}">${site.name}</a> / Contact</nav>
+      <h1 class="h-page" data-reveal>Get a Free Lawn Mowing Quote in Laidley</h1>
+      <p class="lede" data-reveal>Send us your address and rough block size and we'll come back with a fixed mowing price — usually the same day. No call-out fee, no obligation.</p>
+      <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+    </div>
+  </section>
+
+  <section class="section section--sm">
+    <div class="shell grid-split" style="gap:48px">
+      <div data-reveal>
+        <h2 class="h-block">How to Reach Us</h2>
+        <p class="prose" style="margin-top:18px;margin-bottom:26px">The fastest way to get a price is a phone call — we can usually quote a standard residential block over the phone in a couple of minutes. For acreage or anything unusual, we'll arrange a quick look at the property first.</p>
+        <ul class="contact-list">
+          <li><strong>Phone:</strong> <a href="${site.phoneHref}">${site.phoneDisplay}</a></li>
+          <li><strong>Email:</strong> <a href="mailto:${site.email}">${site.email}</a></li>
+          <li><strong>Based at:</strong> ${site.address.street}, ${site.address.locality} ${site.address.region} ${site.address.postcode}</li>
+          <li><strong>Service area:</strong> ${areaSentence}</li>
+        </ul>
+        <img class="media-frame" style="height:260px" src="${p}img/hero-fleet.webp" alt="Callum's Mowing ute, trailer and equipment ready for work in Laidley QLD" width="900" height="500" loading="lazy" decoding="async" />
+        <h2 class="h-block" style="margin-top:44px">What Happens After You Get in Touch</h2>
+        <p class="prose" style="margin-top:18px">We respond to every enquiry, usually within one business day. For a straightforward suburban block we'll confirm a fixed price straight away and offer you the next available slot. For acreage, sloped ground or properties that have been left a while, we'll book a short site visit so the quote reflects what's actually there — that way the price we give is the price you pay.</p>
+      </div>
+
+      <div class="quote-form" id="quote" data-reveal>
+        <h2 class="h-block">Request a Price Online</h2>
+        <p class="prose" style="margin-bottom:26px">Prefer to write it down? Fill in the form and include your suburb, approximate block size and which services you're after. The more detail you give us, the more accurate the number we send back.</p>
+        <form id="quote-form" method="post"${site.formEndpoint ? ` action="${site.formEndpoint}"` : ""} data-fallback-email="${site.email}" data-thanks="${p}thank-you/">
+          <label class="field">Name
+            <input type="text" name="name" required placeholder="Your full name" autocomplete="name" />
+          </label>
+          <div class="field-row">
+            <label class="field">Email
+              <input type="email" name="email" required placeholder="you@email.com" autocomplete="email" />
+            </label>
+            <label class="field">Phone
+              <input type="tel" name="phone" required placeholder="04__ ___ ___" autocomplete="tel" />
+            </label>
+          </div>
+          <label class="field">Property address
+            <input type="text" name="address" required placeholder="Street, suburb — e.g. 12 Smith St, Laidley" autocomplete="street-address" />
+          </label>
+          <fieldset class="service-picker">
+            <legend>Services needed</legend>
+            <div class="service-picker__grid">
+              ${services
+                .map(
+                  (s) =>
+                    `<label><input type="checkbox" name="services" value="${s.title.replace(/&amp;/g, "&")}" />${s.title}</label>`
+                )
+                .join("\n              ")}
+              <label><input type="checkbox" name="services" value="Not sure yet" />Not sure yet</label>
+            </div>
+          </fieldset>
+          <label class="field">Job notes
+            <textarea name="notes" rows="5" placeholder="Block or acreage size, how long since the last cut, one-off or regular, gate access, dogs, anything else we should know."></textarea>
+          </label>
+          <button class="btn btn--forest" type="submit">Send My Quote Request</button>
+          <p class="form-note">We reply to every enquiry, usually within one business day. Your details are only used to quote your job.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand section--sm">
+    <div class="shell">
+      <h2 class="h-block" data-reveal>Areas We Cover</h2>
+      <p class="prose" style="max-width:78ch;margin-top:18px" data-reveal>We run mowing routes across the Lockyer Valley from our base in Laidley, covering ${areas.slice(1).join(", ").replace(/, ([^,]*)$/, " and $1")}. Properties inside this run don't attract a travel fee. If you're on the edge of these suburbs or slightly beyond, call anyway — if we're already scheduled nearby that week, we can usually make it work.</p>
+      <div class="areas" style="margin-top:32px" data-reveal-group>
+        ${areas.map((a) => `<div data-reveal>${a}</div>`).join("\n        ")}
+      </div>
+    </div>
+  </section>
+
+  ${faqSection(contactFaqs, "Quoting and Booking Questions")}
+
+  ${ctaSection(p, {
+    heading: "Let's Get Your Property Sorted",
+    body: "Whether it's a single tidy-up before an inspection or a permanent fortnightly slot, we're ready when you are.",
+    secondary: "email",
+  })}`,
+};
+
+/* -------------------------------------------------------------- thank you */
+
+const thanks = {
+  path: "thank-you",
+  title: "Thank You | Callum's Mowing Laidley QLD",
+  description:
+    "Thanks for your enquiry. Callum's Mowing will be in touch, usually within one business day.",
+  noindex: true,
+  body: (p) => `
+  <section class="section" style="min-height:64vh;display:flex;align-items:center">
+    <div class="shell grid-split grid-split--center">
+      <div data-reveal>
+        <span class="thanks-tick" aria-hidden="true">✓</span>
+        <h1 class="h-page">Thanks — your quote request is in.</h1>
+        <p class="prose" style="font-size:18px;max-width:56ch;margin-top:18px">We've got your details and we'll come back with a price, usually within one business day. If it's a standard residential block we'll confirm a fixed figure straight away; for acreage or a property that's been left a while, we'll organise a quick site visit first.</p>
+        <p class="prose" style="font-size:18px;max-width:56ch;margin-top:16px;margin-bottom:34px">Need it sorted sooner? Call Callum directly on <a href="${site.phoneHref}">${site.phoneDisplay}</a>.</p>
+        <div class="btn-row">
+          <a class="btn btn--forest" href="${site.phoneHref}">Call ${site.phoneDisplay}</a>
+          <a class="btn btn--outline" href="${p}">Back to home</a>
+        </div>
+      </div>
+      <img class="media-frame media-frame--tall" src="${p}img/backyard-neat.webp" alt="Freshly mown backyard lawn in Laidley QLD" width="900" height="800" loading="lazy" decoding="async" data-reveal />
+    </div>
+  </section>`,
+};
+
+module.exports = { about, contact, thanks };
