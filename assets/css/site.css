@@ -933,17 +933,193 @@ p { margin: 0; }
    Contact form
    -------------------------------------------------------------------------- */
 
-.quote-form {
+/* --------------------------------------------------------------------------
+   Contact page — split hero with the quote card inside it
+   -------------------------------------------------------------------------- */
+
+/* The form lives in the hero rather than in a section below it, so on a phone
+   it is the first thing after the headline and a visitor can start filling it
+   in immediately instead of scrolling past the contact details. */
+.hero--split { min-height: 0; display: block; }
+
+/* Heavier, left-weighted scrim: the headline sits over the busiest part of the
+   photo, and the card needs a calm backdrop to read as a separate surface. */
+.hero--split .hero__media { opacity: 0.4; }
+.hero--split .hero__scrim {
+  background:
+    linear-gradient(100deg, rgba(10, 26, 17, 0.95) 0%, rgba(10, 26, 17, 0.8) 48%, rgba(10, 26, 17, 0.66) 100%);
+}
+
+.hero-split {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  align-items: center;
+  padding-top: 72px;
+  padding-bottom: 72px;
+}
+
+@media (min-width: 940px) {
+  .hero-split {
+    grid-template-columns: 1fr minmax(440px, 520px);
+    gap: 56px;
+    padding-top: 84px;
+    padding-bottom: 84px;
+  }
+}
+
+/* Tighter on a phone so the form sits higher up the screen. */
+@media (max-width: 560px) {
+  .hero-split { padding-top: 48px; padding-bottom: 48px; gap: 30px; }
+  .quote-card { padding: 26px 20px; }
+}
+
+.hero-split__copy h1 { color: var(--cream); margin-bottom: 20px; max-width: 15ch; }
+.hero-split__copy .lede { color: rgba(246, 244, 239, 0.86); margin-bottom: 32px; }
+.hero-split__copy .crumbs { margin-bottom: 18px; }
+
+/* Eyebrow with a leading dot, used above the hero and section headings. */
+.eyebrow--dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--lime);
+  margin-bottom: 18px;
+}
+.eyebrow--dot::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.eyebrow--ink { color: var(--green); margin-bottom: 0; }
+
+/* The floating form card. */
+.quote-card {
   background: var(--paper);
-  border: 1px solid var(--border);
   border-radius: 20px;
-  padding: 36px;
+  padding: 34px;
+  box-shadow: 0 30px 70px rgba(6, 18, 11, 0.34);
+  position: relative;
+  overflow: hidden;
+}
+.quote-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--lime) 0%, var(--green) 100%);
+}
+.quote-card__title {
+  font-weight: 800;
+  font-size: clamp(21px, 2.2vw, 25px);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.quote-card__intro {
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin-bottom: 24px;
+}
+.quote-card form { display: flex; flex-direction: column; gap: 16px; }
+.quote-card__submit { width: 100%; margin-top: 4px; }
+.quote-card__note {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted-soft);
+  text-align: center;
+}
+.quote-card__note a { font-weight: 600; }
+
+/* Compact field styling inside the card. */
+.quote-card .field { gap: 6px; font-size: 13.5px; }
+.quote-card .field input,
+.quote-card .field select,
+.quote-card .field textarea { padding: 12px 14px; font-size: 15.5px; }
+.quote-card .field-row { gap: 16px; }
+
+/* --------------------------------------------------------------------------
+   Contact details + map
+   -------------------------------------------------------------------------- */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  align-items: start;
+}
+
+@media (min-width: 940px) {
+  .contact-grid { grid-template-columns: 1fr 1fr; gap: 56px; }
+}
+
+.contact-rows { list-style: none; margin: 0; padding: 0; }
+
+.contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+.contact-row:first-child { padding-top: 0; }
+
+.contact-row__icon {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #f1f5e8;
+  color: var(--green-link);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s var(--ease-soft), color 0.25s var(--ease-soft);
+}
+.contact-row__icon svg { width: 20px; height: 20px; }
+.contact-row:hover .contact-row__icon { background: var(--lime); color: var(--forest); }
+
+.contact-row__text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.contact-row__label {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--muted-soft);
+}
+.contact-row__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 1.45;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+.contact-row__value a { color: var(--ink); text-decoration: none; }
+.contact-row__value a:hover { color: var(--green-link); text-decoration: underline; }
+
+.map-frame {
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: #eef1e9;
+  aspect-ratio: 4 / 3;
+  box-shadow: 0 18px 44px rgba(16, 32, 26, 0.1);
+}
+.map-frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+
+@media (max-width: 939px) {
+  .map-frame { aspect-ratio: 16 / 11; }
 }
 .quote-form h2 { margin-bottom: 12px; }
 .quote-form form { display: flex; flex-direction: column; gap: 18px; }
 
 .field { display: flex; flex-direction: column; gap: 7px; font-size: 14px; font-weight: 600; color: var(--ink); }
 .field input,
+.field select,
 .field textarea {
   font-family: var(--font-body);
   font-size: 16px;
@@ -952,9 +1128,11 @@ p { margin: 0; }
   border-radius: 10px;
   background: #fbfaf7;
   color: var(--ink);
+  width: 100%;
   transition: border-color 0.2s var(--ease-soft), box-shadow 0.2s var(--ease-soft);
 }
 .field input:focus,
+.field select:focus,
 .field textarea:focus {
   outline: none;
   border-color: var(--green);
@@ -962,25 +1140,21 @@ p { margin: 0; }
 }
 .field textarea { resize: vertical; }
 
-.field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 18px; }
-
-.service-picker { border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin: 0; }
-.service-picker legend { font-size: 14px; font-weight: 600; color: var(--ink); padding: 0 6px; }
-.service-picker__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: 10px;
-  margin-top: 6px;
-}
-.service-picker label {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 15.5px;
-  color: var(--muted);
+/* Native select arrow varies by platform, so draw a consistent one. */
+.field select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%236B7A70' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 12px;
+  padding-right: 38px;
   cursor: pointer;
 }
-.service-picker input { width: 17px; height: 17px; accent-color: var(--green); }
+.field select:invalid { color: var(--muted-soft); }
+
+/* minmax(0,…) so a long placeholder can't push the columns wider than the card. */
+.field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 18px; }
 
 .form-note { font-size: 13.5px; line-height: 1.6; color: var(--muted-soft); }
 

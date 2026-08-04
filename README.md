@@ -106,17 +106,64 @@ Added on top of the original design, all gated behind
 - `sitemap.xml`, `robots.txt`, skip link, `width`/`height` on images to avoid
   layout shift, lazy loading below the fold
 
-## The quote form
+## CRM tracking and the quote form
 
-`/contact/` posts to whatever you set as `site.formEndpoint` in `src/data.js`.
+The GoHighLevel external tracking script is injected on every page just before
+`</body>`, configured from `site.tracking` in `src/data.js`. It records page
+views and captures native form submissions, which means **the CRM is the quote
+form's backend** — there is no other server involved.
 
-That field is **empty by default**, and while it's empty the form falls back to
-opening the visitor's email client with every field pre-filled and addressed to
-Callum, then sends them to `/thank-you/`. No third party receives customer
-details unless one is explicitly configured.
+### Field mapping
 
-To use a form service instead, set `formEndpoint` and rebuild — for example
-`https://formspree.io/f/xxxxxxx`. Nothing else needs to change.
+The CRM maps submissions by each input's `name` attribute, so the form's field
+names are the contact field keys themselves. They're defined once in
+`formFields` in `src/data.js`:
+
+| Form field | `name` attribute | CRM contact field |
+| --- | --- | --- |
+| Name | `full_name` | `{{contact.full_name}}` |
+| Email | `email` | `{{contact.email}}` |
+| Phone | `phone` | `{{contact.phone}}` |
+| Property address | `property_address` | `{{contact.property_address}}` |
+| Services needed | `service_needed` | `{{contact.service_needed}}` |
+| Job notes | `job_notes` | `{{contact.job_notes}}` |
+
+`property_address`, `service_needed` and `job_notes` must exist as **custom
+fields** in the CRM with exactly those keys, or those values are dropped.
+
+"Service needed" is a single `<select>`, which matches how a contact field
+stores one value. Customers needing more than one service pick "More than one
+service" and describe it in the job notes.
+
+### Rules the form has to keep following
+
+The tracker captures by listening for the native `submit` event. Three things
+would silently break it, so don't undo them:
+
+1. **Never call `stopPropagation()`** in a submit handler — the event must reach
+   the tracker. (`preventDefault()` is fine; it cancels only the browser's
+   navigation, not the other listeners.)
+2. **Never disable a named field** before submitting. Disabling the submit
+   button is fine — it isn't captured data.
+3. **Keep submitting through the real `<button type="submit">`.** Replacing it
+   with a click handler that posts via `fetch` means no submit event fires and
+   nothing is captured.
+
+`assets/js/site.js` binds its handler to `document` rather than to the form, so
+the tracker's own listener sees the event before ours prevents the default. It
+then waits 900 ms before redirecting to `/thank-you/`, giving the tracker's
+request time to leave the page.
+
+### Also enable, on the CRM side
+
+Under the tracking settings, **Form Analytics** and **Form Submissions** both
+need to be switched on or nothing is recorded.
+
+### Optional second destination
+
+Setting `site.formEndpoint` (Formspree, FormSubmit, Netlify Forms, etc.) makes
+the form POST there natively as well. The CRM still captures it, because the
+native submit event fires either way.
 
 ## Before this goes live
 

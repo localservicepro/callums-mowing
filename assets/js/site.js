@@ -149,41 +149,35 @@
   /* -------------------------------------------------- quote form behaviour */
   var quoteForm = document.getElementById("quote-form");
   if (quoteForm) {
-    quoteForm.addEventListener("submit", function (e) {
+    /* Deliberately bound to `document` in the bubble phase rather than to the
+       form itself. The CRM tracker is the form's delivery mechanism, and a
+       listener on the form would run during the target phase -- before the
+       tracker's document-level listener -- so the tracker would observe an
+       already-prevented event and might skip it. Listening here means the
+       tracker sees the submit untouched and we cancel navigation afterwards.
+
+       Two rules matter for CRM capture: never call stopPropagation (that
+       genuinely blocks it), and never disable a named field before it reads
+       the form. preventDefault is safe -- it cancels only the browser's own
+       navigation, not the other listeners. */
+    document.addEventListener("submit", function (e) {
+      if (e.target !== quoteForm) return;
+
       var btn = quoteForm.querySelector("button[type=submit]");
+      if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
 
-      /* With a form endpoint configured, let the browser post it normally. */
-      if (quoteForm.getAttribute("action")) {
-        if (btn) { btn.disabled = true; btn.textContent = "Sending…"; }
-        return;
-      }
+      /* A configured endpoint posts natively; the CRM has already captured the
+         same event, so both receive the enquiry. */
+      if (quoteForm.getAttribute("action")) return;
 
-      /* No endpoint: compose a pre-filled email so the enquiry still lands. */
+      /* Without an endpoint the browser would POST to a static file, so cancel
+         that and move to the thank-you page. The delay gives the tracker's
+         request time to leave before we navigate away. */
       e.preventDefault();
-      var data = new FormData(quoteForm);
-      var picked = data.getAll("services");
-      var lines = [
-        "Name: " + (data.get("name") || ""),
-        "Email: " + (data.get("email") || ""),
-        "Phone: " + (data.get("phone") || ""),
-        "Property address: " + (data.get("address") || ""),
-        "Services needed: " + (picked.length ? picked.join(", ") : "Not specified"),
-        "",
-        "Job notes:",
-        data.get("notes") || "(none)"
-      ];
-
-      var to = quoteForm.getAttribute("data-fallback-email");
-      var href =
-        "mailto:" + to +
-        "?subject=" + encodeURIComponent("Quote request — " + (data.get("address") || data.get("name") || "website")) +
-        "&body=" + encodeURIComponent(lines.join("\n"));
-
-      window.location.href = href;
-      if (btn) { btn.disabled = true; btn.textContent = "Opening your email…"; }
       setTimeout(function () {
-        window.location.href = quoteForm.getAttribute("data-thanks") || "../thank-you/";
-      }, 1200);
+        window.location.href =
+          quoteForm.getAttribute("data-thanks") || "../thank-you/";
+      }, 900);
     });
   }
 
