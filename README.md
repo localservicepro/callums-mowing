@@ -52,6 +52,29 @@ assets/js/site.js      nav, dropdown, scroll reveal, before/after sliders
 build.js               writes the static HTML
 ```
 
+### Logo and browser-tab icons
+
+The mower mark is inline SVG, drawn once by `logoSvg` in `src/layout.js` for the
+header and footer. `favicon.svg` holds the same artwork as a standalone file and
+is the source for the raster icons:
+
+| File | Used for |
+| --- | --- |
+| `favicon.ico` | The automatic `/favicon.ico` request browsers make |
+| `favicon.svg` | Modern browsers, scales to any tab size |
+| `favicon-32.png` | Fallback where SVG icons aren't supported |
+| `favicon-192.png` | Android home screen |
+| `apple-touch-icon.png` | iOS — must be PNG and opaque, since iOS ignores SVG and renders transparency as black |
+
+If the logo changes, update `logoSvg` and `favicon.svg` together, then regenerate
+the rasters:
+
+```bash
+npm i -D playwright && node scripts/make-favicons.js
+```
+
+Playwright is only needed for that one-off, so it isn't a project dependency.
+
 Change a phone number, service area or review in `src/data.js` and it updates
 everywhere. **Edit the sources, then run `npm run build` — never hand-edit the
 generated `index.html` files**, as the next build overwrites them.

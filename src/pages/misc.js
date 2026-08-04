@@ -1,7 +1,7 @@
 /** About, Contact and Thank You pages. */
 
 const { site, areas, services, formFields: f } = require("../data");
-const { faqSection, ctaSection, gallerySection } = require("../layout");
+const { faqSection, ctaSection, gallerySection, mapEmbed } = require("../layout");
 
 const areaSentence = areas.join(", ").replace(/, ([^,]*)$/, " and $1");
 
@@ -195,7 +195,7 @@ const contact = {
         <span class="eyebrow eyebrow--dot" data-reveal>FREE QUOTES</span>
         <h1 class="h-page" data-reveal>Get a Free Lawn Mowing Quote in Laidley</h1>
         <p class="lede" data-reveal>Send your job through and we'll come back with a free, no-obligation quote — usually the same day. Servicing Laidley, Gatton, Plainland and the whole Lockyer Valley.</p>
-        <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+        <div class="hero-split__call" data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
       </div>
 
       <div class="quote-card" id="quote" data-reveal>
@@ -263,14 +263,7 @@ const contact = {
           </div>
         </div>
 
-        <div class="map-frame" data-reveal>
-          <iframe
-            src="https://www.google.com/maps?q=${mapQuery}&amp;z=13&amp;output=embed"
-            title="Map showing Callum's Mowing, based in ${site.address.locality} ${site.address.region}"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen></iframe>
-        </div>
+        ${mapEmbed(`Map showing Callum's Mowing, based in ${site.address.locality} ${site.address.region}`)}
       </div>
     </div>
   </section>

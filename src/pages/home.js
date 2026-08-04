@@ -1,7 +1,7 @@
 /** Home page. */
 
 const { site, areas, services, reviews } = require("../data");
-const { faqSection, ctaSection, gallerySection } = require("../layout");
+const { faqSection, ctaSection, gallerySection, mapEmbed } = require("../layout");
 
 const faqs = [
   {
@@ -232,13 +232,14 @@ const home = {
   </section>
 
   <section class="section">
-    <div class="shell grid-split" style="gap:48px">
-      <div data-reveal>
-        <h2 class="h-section">Where We Work</h2>
-        <p class="prose" style="margin-top:20px">We provide lawn mowing in ${areas.join(", ").replace(/, ([^,]*)$/, " and $1")}, covering most of the Lockyer Valley between the Warrego Highway and the ranges. Being based in Laidley means short travel times and no travel surcharge for properties inside our regular run. If you're just outside these suburbs, call anyway — if we're already working nearby that week, we can usually fit you in.</p>
-      </div>
-      <div class="areas" data-reveal-group>
-        ${areas.map((a) => `<div data-reveal>${a}</div>`).join("\n        ")}
+    <div class="shell">
+      <h2 class="h-section" data-reveal>Where We Work</h2>
+      <p class="prose" style="max-width:78ch;margin-top:20px" data-reveal>We provide lawn mowing in ${areas.join(", ").replace(/, ([^,]*)$/, " and $1")}, covering most of the Lockyer Valley between the Warrego Highway and the ranges. Being based in Laidley means short travel times and no travel surcharge for properties inside our regular run. If you're just outside these suburbs, call anyway — if we're already working nearby that week, we can usually fit you in.</p>
+      <div class="contact-grid contact-grid--center" style="margin-top:40px">
+        <div class="areas" data-reveal-group>
+          ${areas.map((a) => `<div data-reveal>${a}</div>`).join("\n          ")}
+        </div>
+        ${mapEmbed("Map showing Callum's Mowing, based in Laidley QLD and serving the Lockyer Valley")}
       </div>
     </div>
   </section>

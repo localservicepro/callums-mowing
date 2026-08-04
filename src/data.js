@@ -28,6 +28,15 @@ const site = {
 
   geo: { lat: -27.6317, lng: 152.3936 },
 
+  /**
+   * Google Maps embed pointing at the Callum's Mowing business listing, not
+   * just the street address, so the pin carries the business name. Taken from
+   * Maps' own Share > Embed dialog — the `pb` blob is opaque and must not be
+   * hand-edited, so replace the whole URL if the listing ever moves.
+   */
+  mapEmbed:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3534.429210057076!2d152.4364398!3d-27.6421894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8998c88c8dd6f903%3A0x51cacd24bc083057!2sCallum's%20Mowing!5e0!3m2!1sen!2sph!4v1785837112275!5m2!1sen!2sph",
+
   /** Trading hours. `display` is what the page shows; the rest feeds schema. */
   hours: {
     display: "Mon–Sat 6:30am–5pm",

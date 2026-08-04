@@ -37,6 +37,21 @@ const logoSvg = (size, plate) =>
 
 /* --------------------------------------------------------------- sections */
 
+/**
+ * Google Maps embed of the business listing. Lazy-loaded, since it pulls in a
+ * third-party frame well below the fold on every page that uses it.
+ */
+function mapEmbed(title) {
+  return `<div class="map-frame" data-reveal>
+          <iframe
+            src="${site.mapEmbed}"
+            title="${title}"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>`;
+}
+
 /** Reusable "Frequently Asked Questions" block. Also feeds FAQPage schema. */
 function faqSection(faqs, heading = "Frequently Asked Questions") {
   return `
@@ -413,8 +428,10 @@ function render(page) {
   <meta name="twitter:image" content="${site.origin}/img/${page.ogImage || "hero-fleet"}.webp" />
 
   <meta name="theme-color" content="#0F2E1E" />
+  <link rel="icon" href="${p}favicon.ico" sizes="32x32" />
   <link rel="icon" href="${p}favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="${p}favicon.svg" />
+  <link rel="icon" href="${p}favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="${p}apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -448,6 +465,7 @@ module.exports = {
   render,
   prefixFor,
   urlFor,
+  mapEmbed,
   faqSection,
   ctaSection,
   gallerySection,
