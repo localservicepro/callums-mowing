@@ -413,8 +413,10 @@ function render(page) {
   <meta name="twitter:image" content="${site.origin}/img/${page.ogImage || "hero-fleet"}.webp" />
 
   <meta name="theme-color" content="#0F2E1E" />
+  <link rel="icon" href="${p}favicon.ico" sizes="32x32" />
   <link rel="icon" href="${p}favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="${p}favicon.svg" />
+  <link rel="icon" href="${p}favicon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="${p}apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

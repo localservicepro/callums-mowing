@@ -195,7 +195,7 @@ const contact = {
         <span class="eyebrow eyebrow--dot" data-reveal>FREE QUOTES</span>
         <h1 class="h-page" data-reveal>Get a Free Lawn Mowing Quote in Laidley</h1>
         <p class="lede" data-reveal>Send your job through and we'll come back with a free, no-obligation quote — usually the same day. Servicing Laidley, Gatton, Plainland and the whole Lockyer Valley.</p>
-        <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+        <div class="hero-split__call" data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
       </div>
 
       <div class="quote-card" id="quote" data-reveal>
