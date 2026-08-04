@@ -1279,7 +1279,11 @@ p { margin: 0; }
 }
 [data-reveal].is-visible { opacity: 1; transform: none; }
 
-.hero [data-reveal] { transform: translateY(30px); }
+/* Slightly longer travel for hero content. Scoped to :not(.is-visible) because
+   this rule sits after the .is-visible rule at equal specificity — without the
+   guard it would win permanently, leaving hero content stuck 30px low and
+   fading in without ever sliding. */
+.hero [data-reveal]:not(.is-visible) { transform: translateY(30px); }
 
 /* --------------------------------------------------------------------------
    Responsive
@@ -1363,8 +1367,13 @@ p { margin: 0; }
   }
   body.nav-open .nav-scrim { opacity: 1; visibility: visible; }
 
-  .hero { min-height: 540px; }
-  .hero__body { padding-top: 84px; padding-bottom: 48px; }
+  /* The desktop hero reserves a lot of headroom so the headline sits low over
+     the photo. On a phone that reads as dead space above the fold, and the
+     min-height adds flex slack on top of it, so let the content set the height
+     and keep only enough padding to clear the sticky header. */
+  .hero { min-height: 0; }
+  .hero__body { padding-top: 40px; padding-bottom: 44px; }
+  .hero--page .hero__body { padding-top: 40px; padding-bottom: 48px; }
   .cta-panel { padding: 52px 26px; }
   .quote-form { padding: 26px; }
   .grid-split { gap: 40px; }
