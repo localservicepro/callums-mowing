@@ -386,6 +386,18 @@ p { margin: 0; }
 }
 .menu__panel a:hover { background: #f1f5e8; color: var(--forest); padding-left: 18px; }
 
+/* Separated so the index reads as a summary of the list above it, not an
+   eighth service. On mobile it is the only route to /services/, since tapping
+   the parent expands the submenu rather than navigating. */
+.menu__all {
+  margin-top: 6px;
+  padding-top: 14px !important;
+  border-top: 1px solid var(--border);
+  font-weight: 600;
+  color: var(--green-link) !important;
+  border-radius: 0 0 9px 9px;
+}
+
 /* Mobile menu button */
 .nav-toggle {
   display: none;
@@ -1251,34 +1263,6 @@ p { margin: 0; }
   font-size: 13.5px;
 }
 
-/* Sticky mobile call bar */
-.call-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 70;
-  display: none;
-  gap: 10px;
-  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-  background: rgba(15, 46, 30, 0.97);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(246, 244, 239, 0.14);
-}
-.call-bar a {
-  flex: 1;
-  text-align: center;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 15px;
-  padding: 14px 10px;
-  border-radius: 999px;
-  text-decoration: none;
-}
-.call-bar__call { background: var(--lime); color: var(--forest); }
-.call-bar__quote { background: transparent; border: 1px solid rgba(246, 244, 239, 0.4); color: var(--cream); }
-
 /* --------------------------------------------------------------------------
    Scroll reveal
    -------------------------------------------------------------------------- */
@@ -1304,25 +1288,43 @@ p { margin: 0; }
 @media (max-width: 900px) {
   :root { --section-y: 72px; --section-y-sm: 68px; --gutter: 20px; }
 
-  .nav-toggle { display: flex; }
+  /* backdrop-filter makes an element a containing block for position:fixed
+     descendants, which would anchor the drawer to the header box instead of
+     the viewport — leaving it header-height and pushed off to the right, where
+     it forces the document wider than the screen. The frosted effect isn't
+     worth that on a phone, so drop it wherever the drawer is in play. */
+  .site-header {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--cream);
+  }
+  .site-header.is-stuck { background: var(--cream); }
+
+  /* Keep the toggle above the drawer so it stays tappable to close. */
+  .nav-toggle { display: flex; position: relative; z-index: 2; }
 
   .nav {
     position: fixed;
     inset: 0 0 0 auto;
     width: min(360px, 86vw);
+    max-width: 100vw;
     background: var(--cream);
     border-left: 1px solid var(--border);
     flex-direction: column;
     align-items: stretch;
     gap: 4px;
-    padding: 92px 22px 40px;
+    padding: 92px 22px calc(40px + env(safe-area-inset-bottom));
     overflow-y: auto;
+    overscroll-behavior: contain;
+    /* Hidden rather than merely translated: an off-screen but visible panel
+       still takes keyboard focus and can widen the document. */
+    visibility: hidden;
     transform: translateX(100%);
-    transition: transform 0.36s var(--ease-out);
+    transition: transform 0.36s var(--ease-out), visibility 0.36s;
     box-shadow: -20px 0 60px rgba(16, 32, 26, 0.16);
     margin-left: 0;
   }
-  .nav.is-open { transform: translateX(0); }
+  .nav.is-open { transform: translateX(0); visibility: visible; }
 
   .nav__link, .has-menu__toggle { font-size: 17px; padding: 14px 12px; width: 100%; text-align: left; }
   .nav__phone { display: block; font-size: 19px; padding: 14px 12px; }
@@ -1363,8 +1365,6 @@ p { margin: 0; }
   .quote-form { padding: 26px; }
   .grid-split { gap: 40px; }
   .ba, .media-frame--tall { height: 340px; }
-  .call-bar { display: flex; }
-  .site-footer { padding-bottom: 76px; }
 }
 
 @media (max-width: 560px) {
@@ -1395,6 +1395,6 @@ p { margin: 0; }
 }
 
 @media print {
-  .site-header, .call-bar, .nav-scrim, .site-footer { display: none; }
+  .site-header, .nav-scrim, .site-footer { display: none; }
   body { background: #fff; }
 }

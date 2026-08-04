@@ -311,6 +311,7 @@ function header(p, active) {
                   `<a href="${p}services/${s.slug}/">${s.nav}</a>`
               )
               .join("\n            ")}
+            <a class="menu__all" href="${p}services/">All Services</a>
           </div>
         </div>
       </div>
@@ -369,12 +370,7 @@ function footer(p) {
       <span>ABN available on request · Fully insured</span>
     </div>
   </div>
-</footer>
-
-<div class="call-bar">
-  <a class="call-bar__call" href="${site.phoneHref}">Call ${site.phoneDisplay}</a>
-  <a class="call-bar__quote" href="${p}contact/">Free Quote</a>
-</div>`;
+</footer>`;
 }
 
 /* --------------------------------------------------------------- document */
