@@ -1,7 +1,7 @@
 /** About, Contact and Thank You pages. */
 
 const { site, areas, services, formFields: f } = require("../data");
-const { faqSection, ctaSection, gallerySection } = require("../layout");
+const { faqSection, ctaSection, gallerySection, mapEmbed } = require("../layout");
 
 const areaSentence = areas.join(", ").replace(/, ([^,]*)$/, " and $1");
 
@@ -263,14 +263,7 @@ const contact = {
           </div>
         </div>
 
-        <div class="map-frame" data-reveal>
-          <iframe
-            src="https://www.google.com/maps?q=${mapQuery}&amp;z=13&amp;output=embed"
-            title="Map showing Callum's Mowing, based in ${site.address.locality} ${site.address.region}"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-            allowfullscreen></iframe>
-        </div>
+        ${mapEmbed(`Map showing Callum's Mowing, based in ${site.address.locality} ${site.address.region}`)}
       </div>
     </div>
   </section>

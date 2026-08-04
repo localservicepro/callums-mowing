@@ -37,6 +37,21 @@ const logoSvg = (size, plate) =>
 
 /* --------------------------------------------------------------- sections */
 
+/**
+ * Google Maps embed of the business listing. Lazy-loaded, since it pulls in a
+ * third-party frame well below the fold on every page that uses it.
+ */
+function mapEmbed(title) {
+  return `<div class="map-frame" data-reveal>
+          <iframe
+            src="${site.mapEmbed}"
+            title="${title}"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+        </div>`;
+}
+
 /** Reusable "Frequently Asked Questions" block. Also feeds FAQPage schema. */
 function faqSection(faqs, heading = "Frequently Asked Questions") {
   return `
@@ -450,6 +465,7 @@ module.exports = {
   render,
   prefixFor,
   urlFor,
+  mapEmbed,
   faqSection,
   ctaSection,
   gallerySection,
