@@ -72,13 +72,14 @@ function faqSection(faqs, heading = "Frequently Asked Questions") {
   </section>`;
 }
 
-/** Closing call-to-action panel used at the foot of every page. */
-function ctaSection(p, { heading, body, secondary }) {
-  const second =
-    secondary === "email"
-      ? `<a class="btn btn--ghost" href="mailto:${site.email}">Email Callum</a>`
-      : `<a class="btn btn--ghost" href="${p}contact/">Get a free quote</a>`;
-
+/**
+ * Closing call-to-action panel used at the foot of every page.
+ *
+ * Deliberately a single button. The site drives enquiries to the quote form,
+ * so no phone or "book" CTA competes with it here — the number stays available
+ * as information in the header, footer and contact details instead.
+ */
+function ctaSection(p, { heading, body, href }) {
   return `
   <section class="section">
     <div class="shell">
@@ -86,8 +87,7 @@ function ctaSection(p, { heading, body, secondary }) {
         <h2 class="h-section">${heading}</h2>
         <p>${body}</p>
         <div class="btn-row btn-row--center">
-          <a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a>
-          ${second}
+          <a class="btn btn--lime" href="${href || `${p}contact/`}">Get Your Free Quote</a>
         </div>
       </div>
     </div>

@@ -34,7 +34,6 @@ const serviceContent = {
     heroImage: "verge-mown",
     heroAlt:
       "Ride-on mower cutting stripes into a residential lawn in Laidley QLD",
-    cta: "Get a Free Quote",
     schemaDescription:
       "Residential and commercial lawn mowing across Laidley, Gatton, Plainland and the wider Lockyer Valley, including edging and blow-down on every visit.",
 
@@ -172,7 +171,6 @@ const serviceContent = {
     lede: "Acreage mowing from one-acre lifestyle blocks to large rural holdings — we cut the ground other operators turn down. Slopes, long growth and uneven terrain included.",
     heroImage: "acreage-garden",
     heroAlt: "Wide view of a mown acreage property in the Lockyer Valley",
-    cta: "Get an Acreage Quote",
     schemaDescription:
       "Acreage and large-block mowing across the Lockyer Valley using slope-rated commercial machinery, including zoned cutting heights and fire-season clearing.",
 
@@ -310,7 +308,6 @@ const serviceContent = {
     lede: "Crisp, defined lines along driveways, paths, fences and garden beds across the Lockyer Valley. Available with a mow or as a standalone tidy-up.",
     heroImage: "driveway-gate",
     heroAlt: "Crisp lawn edge cut along a driveway in Laidley QLD",
-    cta: "Book a Tidy-Up",
     schemaDescription:
       "Lawn edging and whipper snipping across Laidley and the Lockyer Valley — defined lines along driveways, paths, fences and garden beds.",
 
@@ -443,7 +440,6 @@ const serviceContent = {
     lede: "Beds tidied, shrubs pruned, mulch topped up and green waste taken away. Keep your gardens looking intentional instead of overgrown.",
     heroImage: "acreage-garden",
     heroAlt: "Tidy garden beds framing a house on a Gatton property",
-    cta: "Book a Garden Tidy-Up",
     schemaDescription:
       "Scheduled garden maintenance across Gatton, Laidley and the Lockyer Valley — hand weeding, pruning, mulching and green waste removal.",
 
@@ -582,7 +578,6 @@ const serviceContent = {
     heroImage: "clover-weeds",
     heroAlt:
       "Clover and broadleaf weeds spreading through thin turf in Laidley QLD",
-    cta: "Book a Weed Treatment",
     schemaDescription:
       "Selective lawn weed control across the Lockyer Valley targeting bindii, clover, nutgrass and broadleaf weeds, timed to the treatment window.",
 
@@ -721,7 +716,6 @@ const serviceContent = {
     heroImage: "verge-mown",
     heroAlt:
       "Long boundary strip cleared beside a fence on a Lockyer Valley property",
-    cta: "Get a Quote",
     schemaDescription:
       "Fence line and boundary spraying across the Lockyer Valley using knockdown and residual herbicides to keep fences, gates and driveways clear.",
 
@@ -856,7 +850,6 @@ const serviceContent = {
     heroImage: "backyard-neat",
     heroAlt:
       "Shaped hedge and screening along a property boundary in Laidley QLD",
-    cta: "Book a Hedge Trim",
     schemaDescription:
       "Hedge trimming, shaping and height reduction across Laidley, Gatton and the Lockyer Valley for privacy screens, driveway hedges and formal borders.",
 
@@ -1000,7 +993,7 @@ function serviceTemplate(service, c) {
       </nav>
       <h1 class="h-page" data-reveal>${c.h1}</h1>
       <p class="lede" data-reveal>${c.lede}</p>
-      <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">${c.cta}</a></div>
+      <div data-reveal><a class="btn btn--lime" href="${p}contact/">Get a Free Quote</a></div>
     </div>
   </section>
 
@@ -1076,7 +1069,7 @@ const servicesIndex = {
       <nav class="crumbs" aria-label="Breadcrumb" data-reveal><a href="${p}">${site.name}</a> / Services</nav>
       <h1 class="h-page" data-reveal>Our Services Across the Lockyer Valley</h1>
       <p class="lede" data-reveal>Seven core services, all handled by the same crew, so you're not chasing three different contractors to get your property sorted.</p>
-      <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+      <div data-reveal><a class="btn btn--lime" href="${p}contact/">Get a Free Quote</a></div>
     </div>
   </section>
 

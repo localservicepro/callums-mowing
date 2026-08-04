@@ -66,8 +66,7 @@ const home = {
       <h1 class="h-hero" data-reveal>Lawn Mowing Laidley — Reliable, Sharp and On Time</h1>
       <p class="lede" data-reveal>We handle lawn mowing for residential blocks, acreage and commercial properties across the Lockyer Valley all year round. Book a cut once, fortnightly, or on a schedule that suits your grass.</p>
       <div class="btn-row" data-reveal>
-        <a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay} for a Free Quote</a>
-        <a class="btn btn--ghost" href="${p}contact/">Request a Quote Online</a>
+        <a class="btn btn--lime" href="${p}contact/">Get Your Free Quote</a>
       </div>
     </div>
   </section>
@@ -249,7 +248,6 @@ const home = {
   ${ctaSection(p, {
     heading: "Get Your Free Quote Today",
     body: "Tell us the suburb and rough block size and we'll price your lawn mowing, usually the same day. Serving Laidley, Gatton, Plainland and the wider Lockyer Valley.",
-    secondary: "email",
   })}`,
 };
 
