@@ -20,11 +20,19 @@ function urlFor(path) {
   return path ? `${site.origin}/${path}/` : `${site.origin}/`;
 }
 
+/**
+ * Brand mark: a push mower in side profile, sized to stay readable down to
+ * favicon dimensions. Deck and handle take the lime, engine and wheels the
+ * darker green, so the two-tone treatment of the original mark carries over.
+ */
 const logoSvg = (size, plate) =>
   `<svg width="${size}" height="${size}" viewBox="0 0 40 40" aria-hidden="true" focusable="false">` +
   `<rect width="40" height="40" rx="11" fill="${plate}"></rect>` +
-  `<path d="M20 31C20 21.5 24.2 14.6 32 11.5C32.4 21.8 27.3 29.6 20 31Z" fill="#A9CF46"></path>` +
-  `<path d="M20 31C20 23.6 15.8 18 8.6 15.8C8.4 24 12.9 29.9 20 31Z" fill="#5D9130"></path>` +
+  `<path d="M25.5 19.5 31.5 11" stroke="#A9CF46" stroke-width="3" stroke-linecap="round" fill="none"></path>` +
+  `<rect x="11.5" y="13.6" width="7.6" height="6.4" rx="1.8" fill="#A9CF46"></rect>` +
+  `<rect x="8.5" y="18.5" width="18" height="6.5" rx="2.4" fill="#A9CF46"></rect>` +
+  `<circle cx="13" cy="27.2" r="3.4" fill="#5D9130"></circle>` +
+  `<circle cx="22.5" cy="27.2" r="3.4" fill="#5D9130"></circle>` +
   `</svg>`;
 
 /* --------------------------------------------------------------- sections */
