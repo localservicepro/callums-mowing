@@ -129,6 +129,21 @@ Added on top of the original design, all gated behind
 - `sitemap.xml`, `robots.txt`, skip link, `width`/`height` on images to avoid
   layout shift, lazy loading below the fold
 
+## One call to action
+
+Every page carries exactly **two buttons**, both "Free Quote", both pointing at
+the contact form: one in the hero and one in the closing panel. There are
+deliberately no phone or "book now" buttons anywhere — a second CTA competing
+with the form is what the site is trying to avoid.
+
+The phone number is still present as **information**, not as a button: in the
+header, the footer, the contact details row, and inline in copy such as the
+note under the quote form. Keep that distinction if you add sections later.
+
+`ctaSection` in `src/layout.js` renders the closing panel and takes an optional
+`href`, used on the contact page to point at `#quote` rather than linking the
+page to itself.
+
 ## CRM tracking and the quote form
 
 The GoHighLevel external tracking script is injected on every page just before

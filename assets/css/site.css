@@ -981,13 +981,6 @@ p { margin: 0; }
   }
 }
 
-/* Once the columns stack, the call button sits between the copy and the form
-   and only pushes the form further down the page. The number is already in the
-   header, and the card repeats it under the submit button, so drop it here. */
-@media (max-width: 939px) {
-  .hero-split__call { display: none; }
-}
-
 /* Tighter on a phone so the form sits higher up the screen. */
 @media (max-width: 560px) {
   .hero-split { padding-top: 48px; padding-bottom: 48px; gap: 30px; }

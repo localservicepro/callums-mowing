@@ -64,7 +64,7 @@ const about = {
       <nav class="crumbs" aria-label="Breadcrumb" data-reveal><a href="${p}">${site.name}</a> / About</nav>
       <h1 class="h-page" data-reveal>About Callum's Mowing — Local Mowing in Laidley and the Lockyer Valley</h1>
       <p class="lede" data-reveal>One owner, one mowing standard, and a genuine stake in how this region looks. Here's who turns up when you book us.</p>
-      <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+      <div data-reveal><a class="btn btn--lime" href="${p}contact/">Get a Free Quote</a></div>
     </div>
   </section>
 
@@ -195,7 +195,6 @@ const contact = {
         <span class="eyebrow eyebrow--dot" data-reveal>FREE QUOTES</span>
         <h1 class="h-page" data-reveal>Get a Free Lawn Mowing Quote in Laidley</h1>
         <p class="lede" data-reveal>Send your job through and we'll come back with a free, no-obligation quote — usually the same day. Servicing Laidley, Gatton, Plainland and the whole Lockyer Valley.</p>
-        <div class="hero-split__call" data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
       </div>
 
       <div class="quote-card" id="quote" data-reveal>
@@ -258,8 +257,7 @@ const contact = {
             ${contactRow("map", "SERVICE AREA", areas.join(" · "))}
           </ul>
           <div class="btn-row" style="margin-top:34px">
-            <a class="btn btn--forest" href="${site.phoneHref}">Call Now</a>
-            <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=${mapQuery}" target="_blank" rel="noopener">Get Directions</a>
+            <a class="btn btn--forest" href="https://www.google.com/maps/dir/?api=1&amp;destination=${mapQuery}" target="_blank" rel="noopener">Get Directions</a>
           </div>
         </div>
 
@@ -290,7 +288,7 @@ const contact = {
   ${ctaSection(p, {
     heading: "Let's Get Your Property Sorted",
     body: "Whether it's a single tidy-up before an inspection or a permanent fortnightly slot, we're ready when you are.",
-    secondary: "email",
+    href: "#quote",
   })}`,
 };
 
@@ -311,7 +309,6 @@ const thanks = {
         <p class="prose" style="font-size:18px;max-width:56ch;margin-top:18px">We've got your details and we'll come back with a price, usually within one business day. If it's a standard residential block we'll confirm a fixed figure straight away; for acreage or a property that's been left a while, we'll organise a quick site visit first.</p>
         <p class="prose" style="font-size:18px;max-width:56ch;margin-top:16px;margin-bottom:34px">Need it sorted sooner? Call Callum directly on <a href="${site.phoneHref}">${site.phoneDisplay}</a>.</p>
         <div class="btn-row">
-          <a class="btn btn--forest" href="${site.phoneHref}">Call ${site.phoneDisplay}</a>
           <a class="btn btn--outline" href="${p}">Back to home</a>
         </div>
       </div>
