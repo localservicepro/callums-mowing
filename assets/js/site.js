@@ -149,25 +149,6 @@
   /* -------------------------------------------------- quote form behaviour */
   var quoteForm = document.getElementById("quote-form");
   if (quoteForm) {
-    /* The CRM stores one value per contact field, so the service checkboxes are
-       collapsed into the single hidden field the CRM actually maps. */
-    var serviceField = quoteForm.querySelector('input[type="hidden"][name]');
-    var serviceBoxes = quoteForm.querySelectorAll("input[data-service]");
-
-    if (serviceField && serviceBoxes.length) {
-      var syncServices = function () {
-        var chosen = [];
-        for (var i = 0; i < serviceBoxes.length; i++) {
-          if (serviceBoxes[i].checked) chosen.push(serviceBoxes[i].value);
-        }
-        serviceField.value = chosen.join(", ");
-      };
-      for (var j = 0; j < serviceBoxes.length; j++) {
-        serviceBoxes[j].addEventListener("change", syncServices);
-      }
-      syncServices();
-    }
-
     /* Deliberately bound to `document` in the bubble phase rather than to the
        form itself. The CRM tracker is the form's delivery mechanism, and a
        listener on the form would run during the target phase -- before the

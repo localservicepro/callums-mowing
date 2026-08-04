@@ -5,6 +5,28 @@ const { faqSection, ctaSection, gallerySection } = require("../layout");
 
 const areaSentence = areas.join(", ").replace(/, ([^,]*)$/, " and $1");
 
+const fullAddress = `${site.address.street}, ${site.address.locality} ${site.address.region} ${site.address.postcode}`;
+const mapQuery = encodeURIComponent(fullAddress);
+
+/** Line icons for the contact rows, drawn on a 20x20 grid. */
+const icons = {
+  phone:
+    '<path d="M4.5 3h3l1.5 4-2 1.4a12 12 0 0 0 5.6 5.6L14 12l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5A14.5 14.5 0 0 1 3 4.7 1.5 1.5 0 0 1 4.5 3Z"/>',
+  mail: '<rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="m3 5.5 7 5 7-5"/>',
+  pin: '<path d="M10 2.5a5.5 5.5 0 0 1 5.5 5.5c0 4-5.5 9.5-5.5 9.5S4.5 12 4.5 8A5.5 5.5 0 0 1 10 2.5Z"/><circle cx="10" cy="8" r="2"/>',
+  map: '<path d="M2.5 5.5 7.5 3l5 2.5 5-2.5v11l-5 2.5-5-2.5-5 2.5z"/><path d="M7.5 3v11M12.5 5.5v11"/>',
+};
+
+const contactRow = (name, label, value) => `<li class="contact-row">
+          <span class="contact-row__icon" aria-hidden="true">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${icons[name]}</svg>
+          </span>
+          <span class="contact-row__text">
+            <span class="contact-row__label">${label}</span>
+            <span class="contact-row__value">${value}</span>
+          </span>
+        </li>`;
+
 /* ------------------------------------------------------------------ about */
 
 const aboutFaqs = [
@@ -134,7 +156,7 @@ const about = {
 const contactFaqs = [
   {
     q: "How do I get a lawn mowing quote in Laidley?",
-    a: `Call ${site.phoneDisplay} or email us with your suburb and approximate block size. Most standard residential properties in Laidley can be quoted over the phone within minutes. Larger or acreage blocks usually need a quick site visit, which we arrange at no cost.`,
+    a: `Call ${site.phoneDisplay} or send the form through with your suburb and approximate block size. Most standard residential properties in Laidley can be quoted over the phone within minutes. Larger or acreage blocks usually need a quick site visit, which we arrange at no cost.`,
   },
   {
     q: "How much does a mowing service cost?",
@@ -158,84 +180,112 @@ const contact = {
   path: "contact",
   title: "Contact Callum's Mowing | Free Quote Laidley QLD",
   description:
-    "Get a free lawn mowing quote in Laidley and across the Lockyer Valley. Call 0408 765 657 or send us your address and block size for a same-day price.",
+    "Get a free lawn mowing quote in Laidley and across the Lockyer Valley. Call 0408 765 657 or send your job through for a same-day price.",
   breadcrumbs: [{ name: "Contact", path: "contact" }],
   faqs: contactFaqs,
   body: (p) => `
-  <section class="hero hero--page" style="background:var(--forest)">
-    <div class="shell hero__body">
-      <nav class="crumbs" aria-label="Breadcrumb" data-reveal><a href="${p}">${site.name}</a> / Contact</nav>
-      <h1 class="h-page" data-reveal>Get a Free Lawn Mowing Quote in Laidley</h1>
-      <p class="lede" data-reveal>Send us your address and rough block size and we'll come back with a fixed mowing price — usually the same day. No call-out fee, no obligation.</p>
-      <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+  <section class="hero hero--split">
+    <img class="hero__media" src="${p}img/hero-fleet.webp" alt="Callum's Mowing ute, trailer and equipment ready for work in Laidley QLD" width="1600" height="900" fetchpriority="high" decoding="async" />
+    <div class="hero__scrim"></div>
+    <div class="shell hero-split">
+
+      <div class="hero-split__copy">
+        <nav class="crumbs" aria-label="Breadcrumb" data-reveal><a href="${p}">Home</a> / Contact</nav>
+        <span class="eyebrow eyebrow--dot" data-reveal>FREE QUOTES</span>
+        <h1 class="h-page" data-reveal>Get a Free Lawn Mowing Quote in Laidley</h1>
+        <p class="lede" data-reveal>Send your job through and we'll come back with a free, no-obligation quote — usually the same day. Servicing Laidley, Gatton, Plainland and the whole Lockyer Valley.</p>
+        <div data-reveal><a class="btn btn--lime" href="${site.phoneHref}">Call ${site.phoneDisplay}</a></div>
+      </div>
+
+      <div class="quote-card" id="quote" data-reveal>
+        <h2 class="quote-card__title">Send Your Job Through</h2>
+        <p class="quote-card__intro">Fill this in and we'll come back to you with a free quote — usually the same day.</p>
+        <form id="quote-form" method="post"${site.formEndpoint ? ` action="${site.formEndpoint}"` : ""} data-thanks="${p}thank-you/">
+          <div class="field-row">
+            <label class="field">Full name
+              <input type="text" name="${f.fullName}" required placeholder="Your name" autocomplete="name" />
+            </label>
+            <label class="field">Phone
+              <input type="tel" name="${f.phone}" required placeholder="04xx xxx xxx" autocomplete="tel" />
+            </label>
+          </div>
+          <label class="field">Email
+            <input type="email" name="${f.email}" required placeholder="you@email.com" autocomplete="email" />
+          </label>
+          <div class="field-row">
+            <label class="field">Property address
+              <input type="text" name="${f.address}" required placeholder="Street &amp; suburb" autocomplete="street-address" />
+            </label>
+            <label class="field">Service needed
+              <select name="${f.service}" required>
+                <option value="">Choose a service…</option>
+                ${services
+                  .map(
+                    (s) =>
+                      `<option value="${s.title.replace(/&amp;/g, "&")}">${s.title}</option>`
+                  )
+                  .join("\n                ")}
+                <option value="More than one service">More than one service</option>
+                <option value="Not sure yet">Not sure yet</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">Tell us about the job
+            <textarea name="${f.notes}" rows="4" placeholder="Block or acreage size, how long since the last cut, one-off or regular, gate access, dogs…"></textarea>
+          </label>
+          <button class="btn btn--forest quote-card__submit" type="submit">Send My Request</button>
+          <p class="quote-card__note">Or call <a href="${site.phoneHref}">${site.phoneDisplay}</a> — we're happy to talk it through.</p>
+        </form>
+      </div>
+
     </div>
   </section>
 
   <section class="section section--sm">
-    <div class="shell grid-split" style="gap:48px">
-      <div data-reveal>
-        <h2 class="h-block">How to Reach Us</h2>
-        <p class="prose" style="margin-top:18px;margin-bottom:26px">The fastest way to get a price is a phone call — we can usually quote a standard residential block over the phone in a couple of minutes. For acreage or anything unusual, we'll arrange a quick look at the property first.</p>
-        <ul class="contact-list">
-          <li><strong>Phone:</strong> <a href="${site.phoneHref}">${site.phoneDisplay}</a></li>
-          <li><strong>Email:</strong> <a href="mailto:${site.email}">${site.email}</a></li>
-          <li><strong>Based at:</strong> ${site.address.street}, ${site.address.locality} ${site.address.region} ${site.address.postcode}</li>
-          <li><strong>Service area:</strong> ${areaSentence}</li>
-        </ul>
-        <img class="media-frame" style="height:260px" src="${p}img/hero-fleet.webp" alt="Callum's Mowing ute, trailer and equipment ready for work in Laidley QLD" width="900" height="500" loading="lazy" decoding="async" />
-        <h2 class="h-block" style="margin-top:44px">What Happens After You Get in Touch</h2>
-        <p class="prose" style="margin-top:18px">We respond to every enquiry, usually within one business day. For a straightforward suburban block we'll confirm a fixed price straight away and offer you the next available slot. For acreage, sloped ground or properties that have been left a while, we'll book a short site visit so the quote reflects what's actually there — that way the price we give is the price you pay.</p>
-      </div>
+    <div class="shell">
+      <span class="eyebrow eyebrow--dot eyebrow--ink" data-reveal>FIND US</span>
+      <h2 class="h-section" style="margin-top:14px" data-reveal>Contact Details &amp; Location</h2>
+      <p class="prose" style="margin-top:14px;max-width:72ch" data-reveal>Based in Laidley — servicing the whole Lockyer Valley, from town blocks through to acreage out past the ranges.</p>
 
-      <div class="quote-form" id="quote" data-reveal>
-        <h2 class="h-block">Request a Price Online</h2>
-        <p class="prose" style="margin-bottom:26px">Prefer to write it down? Fill in the form and include your suburb, approximate block size and which services you're after. The more detail you give us, the more accurate the number we send back.</p>
-        <form id="quote-form" method="post"${site.formEndpoint ? ` action="${site.formEndpoint}"` : ""} data-thanks="${p}thank-you/">
-          <label class="field">Name
-            <input type="text" name="${f.fullName}" required placeholder="Your full name" autocomplete="name" />
-          </label>
-          <div class="field-row">
-            <label class="field">Email
-              <input type="email" name="${f.email}" required placeholder="you@email.com" autocomplete="email" />
-            </label>
-            <label class="field">Phone
-              <input type="tel" name="${f.phone}" required placeholder="04__ ___ ___" autocomplete="tel" />
-            </label>
+      <div class="contact-grid" style="margin-top:44px">
+        <div data-reveal>
+          <ul class="contact-rows">
+            ${contactRow("phone", "CALL US", `<a href="${site.phoneHref}">${site.phoneDisplay}</a>`)}
+            ${contactRow("mail", "EMAIL", `<a href="mailto:${site.email}">${site.email}</a>`)}
+            ${contactRow("pin", "BASED IN", fullAddress)}
+            ${contactRow("map", "SERVICE AREA", areas.join(" · "))}
+          </ul>
+          <div class="btn-row" style="margin-top:34px">
+            <a class="btn btn--forest" href="${site.phoneHref}">Call Now</a>
+            <a class="btn btn--outline" href="https://www.google.com/maps/dir/?api=1&amp;destination=${mapQuery}" target="_blank" rel="noopener">Get Directions</a>
           </div>
-          <label class="field">Property address
-            <input type="text" name="${f.address}" required placeholder="Street, suburb — e.g. 12 Smith St, Laidley" autocomplete="street-address" />
-          </label>
-          <fieldset class="service-picker">
-            <legend>Services needed</legend>
-            <div class="service-picker__grid">
-              ${services
-                .map(
-                  (s) =>
-                    `<label><input type="checkbox" data-service value="${s.title.replace(/&amp;/g, "&")}" />${s.title}</label>`
-                )
-                .join("\n              ")}
-              <label><input type="checkbox" data-service value="Not sure yet" />Not sure yet</label>
-            </div>
-            <!-- The CRM contact field takes a single value, so the ticked boxes
-                 above are collapsed into this one field on change. -->
-            <input type="hidden" name="${f.service}" value="" />
-          </fieldset>
-          <label class="field">Job notes
-            <textarea name="${f.notes}" rows="5" placeholder="Block or acreage size, how long since the last cut, one-off or regular, gate access, dogs, anything else we should know."></textarea>
-          </label>
-          <button class="btn btn--forest" type="submit">Send My Quote Request</button>
-          <p class="form-note">We reply to every enquiry, usually within one business day. Your details are only used to quote your job.</p>
-        </form>
+        </div>
+
+        <div class="map-frame" data-reveal>
+          <iframe
+            src="https://www.google.com/maps?q=${mapQuery}&amp;z=13&amp;output=embed"
+            title="Map showing Callum's Mowing, based in ${site.address.locality} ${site.address.region}"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen></iframe>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section section--sand section--sm">
-    <div class="shell">
-      <h2 class="h-block" data-reveal>Areas We Cover</h2>
-      <p class="prose" style="max-width:78ch;margin-top:18px" data-reveal>We run mowing routes across the Lockyer Valley from our base in Laidley, covering ${areas.slice(1).join(", ").replace(/, ([^,]*)$/, " and $1")}. Properties inside this run don't attract a travel fee. If you're on the edge of these suburbs or slightly beyond, call anyway — if we're already scheduled nearby that week, we can usually make it work.</p>
-      <div class="areas" style="margin-top:32px" data-reveal-group>
-        ${areas.map((a) => `<div data-reveal>${a}</div>`).join("\n        ")}
+    <div class="shell grid-split">
+      <div data-reveal>
+        <h2 class="h-block">What Happens After You Get in Touch</h2>
+        <p class="prose" style="margin-top:18px">We respond to every enquiry, usually within one business day. For a straightforward suburban block we'll confirm a fixed price straight away and offer you the next available slot.</p>
+        <p class="prose">For acreage, sloped ground or properties that have been left a while, we'll book a short site visit so the quote reflects what's actually there — that way the price we give is the price you pay.</p>
+      </div>
+      <div data-reveal>
+        <h2 class="h-block">Areas We Cover</h2>
+        <p class="prose" style="margin-top:18px">We run mowing routes across the Lockyer Valley from our base in Laidley, and properties inside that run don't attract a travel fee. On the edge of these suburbs or slightly beyond? Call anyway — if we're already scheduled nearby that week, we can usually make it work.</p>
+        <div class="areas" style="margin-top:26px" data-reveal-group>
+          ${areas.map((a) => `<div data-reveal>${a}</div>`).join("\n          ")}
+        </div>
       </div>
     </div>
   </section>

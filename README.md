@@ -131,10 +131,9 @@ names are the contact field keys themselves. They're defined once in
 `property_address`, `service_needed` and `job_notes` must exist as **custom
 fields** in the CRM with exactly those keys, or those values are dropped.
 
-"Services needed" renders as checkboxes for usability, but a contact field holds
-a single value — so the ticked boxes are collapsed into one comma-separated
-hidden `service_needed` input on change. The checkboxes themselves carry a
-`data-service` attribute instead of a `name`, so they never submit separately.
+"Service needed" is a single `<select>`, which matches how a contact field
+stores one value. Customers needing more than one service pick "More than one
+service" and describe it in the job notes.
 
 ### Rules the form has to keep following
 
