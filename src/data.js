@@ -33,12 +33,42 @@ const site = {
   social: ["https://www.facebook.com/profile.php?id=61577312751456"],
 
   /**
-   * Where the quote form POSTs. Leave empty and the form falls back to opening
-   * a pre-filled email to `email` — no third party ever sees customer details.
-   * To hand submissions to a form service instead, drop its endpoint in here
-   * (Formspree, FormSubmit, Netlify Forms, etc.) and the form posts directly.
+   * GoHighLevel external tracking. The script records page views and captures
+   * native form submissions, creating the CRM contact — so with this in place
+   * the CRM *is* the quote form's backend. Set to null to remove it sitewide.
+   */
+  tracking: {
+    src: "https://link.msgsndr.com/js/external-tracking.js",
+    id: "tk_d2674c7bd61d4ef1a0191d5e2933e2ac",
+  },
+
+  /**
+   * Optional extra form endpoint (Formspree, FormSubmit, Netlify Forms, etc.).
+   * Leave empty and the CRM tracking script above is the sole delivery path.
+   * Set it and the form POSTs there natively as well, which the CRM still
+   * captures because the native submit event fires either way.
    */
   formEndpoint: "",
+};
+
+/**
+ * Quote form fields, in render order. `name` must match the CRM contact field
+ * key exactly — GoHighLevel maps submissions by the input's name attribute:
+ *
+ *   full_name        -> {{contact.full_name}}
+ *   email            -> {{contact.email}}
+ *   phone            -> {{contact.phone}}
+ *   property_address -> {{contact.property_address}}
+ *   service_needed   -> {{contact.service_needed}}
+ *   job_notes        -> {{contact.job_notes}}
+ */
+const formFields = {
+  fullName: "full_name",
+  email: "email",
+  phone: "phone",
+  address: "property_address",
+  service: "service_needed",
+  notes: "job_notes",
 };
 
 /** Suburbs served, in the order they appear across the site. */
@@ -173,4 +203,4 @@ const reviews = [
   },
 ];
 
-module.exports = { site, areas, services, reviews };
+module.exports = { site, areas, services, reviews, formFields };

@@ -1,6 +1,6 @@
 /** About, Contact and Thank You pages. */
 
-const { site, areas, services } = require("../data");
+const { site, areas, services, formFields: f } = require("../data");
 const { faqSection, ctaSection, gallerySection } = require("../layout");
 
 const areaSentence = areas.join(", ").replace(/, ([^,]*)$/, " and $1");
@@ -190,20 +190,20 @@ const contact = {
       <div class="quote-form" id="quote" data-reveal>
         <h2 class="h-block">Request a Price Online</h2>
         <p class="prose" style="margin-bottom:26px">Prefer to write it down? Fill in the form and include your suburb, approximate block size and which services you're after. The more detail you give us, the more accurate the number we send back.</p>
-        <form id="quote-form" method="post"${site.formEndpoint ? ` action="${site.formEndpoint}"` : ""} data-fallback-email="${site.email}" data-thanks="${p}thank-you/">
+        <form id="quote-form" method="post"${site.formEndpoint ? ` action="${site.formEndpoint}"` : ""} data-thanks="${p}thank-you/">
           <label class="field">Name
-            <input type="text" name="name" required placeholder="Your full name" autocomplete="name" />
+            <input type="text" name="${f.fullName}" required placeholder="Your full name" autocomplete="name" />
           </label>
           <div class="field-row">
             <label class="field">Email
-              <input type="email" name="email" required placeholder="you@email.com" autocomplete="email" />
+              <input type="email" name="${f.email}" required placeholder="you@email.com" autocomplete="email" />
             </label>
             <label class="field">Phone
-              <input type="tel" name="phone" required placeholder="04__ ___ ___" autocomplete="tel" />
+              <input type="tel" name="${f.phone}" required placeholder="04__ ___ ___" autocomplete="tel" />
             </label>
           </div>
           <label class="field">Property address
-            <input type="text" name="address" required placeholder="Street, suburb — e.g. 12 Smith St, Laidley" autocomplete="street-address" />
+            <input type="text" name="${f.address}" required placeholder="Street, suburb — e.g. 12 Smith St, Laidley" autocomplete="street-address" />
           </label>
           <fieldset class="service-picker">
             <legend>Services needed</legend>
@@ -211,14 +211,17 @@ const contact = {
               ${services
                 .map(
                   (s) =>
-                    `<label><input type="checkbox" name="services" value="${s.title.replace(/&amp;/g, "&")}" />${s.title}</label>`
+                    `<label><input type="checkbox" data-service value="${s.title.replace(/&amp;/g, "&")}" />${s.title}</label>`
                 )
                 .join("\n              ")}
-              <label><input type="checkbox" name="services" value="Not sure yet" />Not sure yet</label>
+              <label><input type="checkbox" data-service value="Not sure yet" />Not sure yet</label>
             </div>
+            <!-- The CRM contact field takes a single value, so the ticked boxes
+                 above are collapsed into this one field on change. -->
+            <input type="hidden" name="${f.service}" value="" />
           </fieldset>
           <label class="field">Job notes
-            <textarea name="notes" rows="5" placeholder="Block or acreage size, how long since the last cut, one-off or regular, gate access, dogs, anything else we should know."></textarea>
+            <textarea name="${f.notes}" rows="5" placeholder="Block or acreage size, how long since the last cut, one-off or regular, gate access, dogs, anything else we should know."></textarea>
           </label>
           <button class="btn btn--forest" type="submit">Send My Quote Request</button>
           <p class="form-note">We reply to every enquiry, usually within one business day. Your details are only used to quote your job.</p>

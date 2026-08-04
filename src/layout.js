@@ -420,6 +420,12 @@ ${page.body(p)}
 ${footer(p)}
 
 <script src="${p}assets/js/site.js" defer></script>
+${
+  site.tracking
+    ? `<!-- GoHighLevel external tracking: page views + native form capture -->
+<script src="${site.tracking.src}" data-tracking-id="${site.tracking.id}"></script>`
+    : ""
+}
 </body>
 </html>
 `;

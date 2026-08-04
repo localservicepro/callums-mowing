@@ -111,9 +111,9 @@
       <div class="quote-form" id="quote" data-reveal>
         <h2 class="h-block">Request a Price Online</h2>
         <p class="prose" style="margin-bottom:26px">Prefer to write it down? Fill in the form and include your suburb, approximate block size and which services you're after. The more detail you give us, the more accurate the number we send back.</p>
-        <form id="quote-form" method="post" data-fallback-email="callumsmowing4341@gmail.com" data-thanks="../thank-you/">
+        <form id="quote-form" method="post" data-thanks="../thank-you/">
           <label class="field">Name
-            <input type="text" name="name" required placeholder="Your full name" autocomplete="name" />
+            <input type="text" name="full_name" required placeholder="Your full name" autocomplete="name" />
           </label>
           <div class="field-row">
             <label class="field">Email
@@ -124,23 +124,26 @@
             </label>
           </div>
           <label class="field">Property address
-            <input type="text" name="address" required placeholder="Street, suburb — e.g. 12 Smith St, Laidley" autocomplete="street-address" />
+            <input type="text" name="property_address" required placeholder="Street, suburb — e.g. 12 Smith St, Laidley" autocomplete="street-address" />
           </label>
           <fieldset class="service-picker">
             <legend>Services needed</legend>
             <div class="service-picker__grid">
-              <label><input type="checkbox" name="services" value="Lawn Mowing" />Lawn Mowing</label>
-              <label><input type="checkbox" name="services" value="Acreage Mowing" />Acreage Mowing</label>
-              <label><input type="checkbox" name="services" value="Edging & Whipper Snipping" />Edging &amp; Whipper Snipping</label>
-              <label><input type="checkbox" name="services" value="Garden Maintenance" />Garden Maintenance</label>
-              <label><input type="checkbox" name="services" value="Lawn Weed Control" />Lawn Weed Control</label>
-              <label><input type="checkbox" name="services" value="Fence Line Spraying" />Fence Line Spraying</label>
-              <label><input type="checkbox" name="services" value="Hedge Trimming" />Hedge Trimming</label>
-              <label><input type="checkbox" name="services" value="Not sure yet" />Not sure yet</label>
+              <label><input type="checkbox" data-service value="Lawn Mowing" />Lawn Mowing</label>
+              <label><input type="checkbox" data-service value="Acreage Mowing" />Acreage Mowing</label>
+              <label><input type="checkbox" data-service value="Edging & Whipper Snipping" />Edging &amp; Whipper Snipping</label>
+              <label><input type="checkbox" data-service value="Garden Maintenance" />Garden Maintenance</label>
+              <label><input type="checkbox" data-service value="Lawn Weed Control" />Lawn Weed Control</label>
+              <label><input type="checkbox" data-service value="Fence Line Spraying" />Fence Line Spraying</label>
+              <label><input type="checkbox" data-service value="Hedge Trimming" />Hedge Trimming</label>
+              <label><input type="checkbox" data-service value="Not sure yet" />Not sure yet</label>
             </div>
+            <!-- The CRM contact field takes a single value, so the ticked boxes
+                 above are collapsed into this one field on change. -->
+            <input type="hidden" name="service_needed" value="" />
           </fieldset>
           <label class="field">Job notes
-            <textarea name="notes" rows="5" placeholder="Block or acreage size, how long since the last cut, one-off or regular, gate access, dogs, anything else we should know."></textarea>
+            <textarea name="job_notes" rows="5" placeholder="Block or acreage size, how long since the last cut, one-off or regular, gate access, dogs, anything else we should know."></textarea>
           </label>
           <button class="btn btn--forest" type="submit">Send My Quote Request</button>
           <p class="form-note">We reply to every enquiry, usually within one business day. Your details are only used to quote your job.</p>
@@ -263,5 +266,7 @@
 </div>
 
 <script src="../assets/js/site.js" defer></script>
+<!-- GoHighLevel external tracking: page views + native form capture -->
+<script src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_d2674c7bd61d4ef1a0191d5e2933e2ac"></script>
 </body>
 </html>
