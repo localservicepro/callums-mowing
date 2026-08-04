@@ -26,6 +26,14 @@
     toggle.setAttribute("aria-expanded", "false");
     nav.classList.remove("is-open");
     document.body.classList.remove("nav-open");
+
+    /* Collapse any expanded submenu too, so reopening the drawer starts from a
+       clean state rather than whatever was left showing. */
+    nav.querySelectorAll(".has-menu").forEach(function (wrap) {
+      wrap.setAttribute("data-open", "false");
+      var t = wrap.querySelector(".has-menu__toggle");
+      if (t) t.setAttribute("aria-expanded", "false");
+    });
   }
 
   if (toggle && nav) {
@@ -55,6 +63,10 @@
     };
 
     btn.addEventListener("click", function (e) {
+      /* On desktop the panel already opens on hover, so a click should follow
+         the link through to the services index. On mobile there is no hover,
+         so the tap expands the submenu instead of navigating. */
+      if (isDesktop()) return;
       e.preventDefault();
       open(wrap.getAttribute("data-open") !== "true");
     });
@@ -181,8 +193,11 @@
     });
   }
 
-  /* Close the mobile nav after tapping an in-page link. */
+  /* Close the mobile nav after tapping a link that actually navigates. The
+     Services parent is skipped: on mobile it expands the submenu in place, so
+     closing the drawer would hide the very list it just opened. */
   document.querySelectorAll("#primary-nav a").forEach(function (link) {
+    if (link.classList.contains("has-menu__toggle")) return;
     link.addEventListener("click", function () {
       if (!isDesktop()) closeNav();
     });
