@@ -12,6 +12,7 @@ const path = require("path");
 
 const { site } = require("./src/data");
 const { render, urlFor } = require("./src/layout");
+const { sizeOf } = require("./src/imagesize");
 const { home } = require("./src/pages/home");
 const { servicePages, servicesIndex } = require("./src/pages/services");
 const { about, contact, thanks } = require("./src/pages/misc");
@@ -28,6 +29,39 @@ const pages = [
 ];
 
 /* --------------------------------------------------------------- helpers */
+
+/* Real intrinsic dimensions, read once from the files in ./img. */
+const imageDims = new Map();
+const missingImages = new Set();
+
+function dimsFor(name) {
+  if (!imageDims.has(name)) {
+    imageDims.set(name, sizeOf(path.join(ROOT, "img", `${name}.webp`)));
+  }
+  return imageDims.get(name);
+}
+
+/**
+ * Replaces the width/height on every <img> pointing at img/<name>.webp with the
+ * file's true dimensions. Templates therefore never have to hard-code sizes
+ * that would silently drift as artwork is replaced.
+ */
+function applyRealImageDimensions(html) {
+  return html.replace(/<img\b[^>]*>/g, (tag) => {
+    const src = tag.match(/src="[^"]*img\/([a-z0-9-]+)\.webp"/);
+    if (!src) return tag;
+
+    const dims = dimsFor(src[1]);
+    if (!dims) {
+      missingImages.add(src[1]);
+      return tag;
+    }
+
+    return tag
+      .replace(/\swidth="\d+"/, ` width="${dims.width}"`)
+      .replace(/\sheight="\d+"/, ` height="${dims.height}"`);
+  });
+}
 
 function writeFile(relPath, contents) {
   const target = path.join(ROOT, relPath);
@@ -50,21 +84,21 @@ const written = [];
 
 for (const page of pages) {
   const file = page.path ? `${page.path}/index.html` : "index.html";
-  written.push(writeFile(file, render(page)));
+  written.push(writeFile(file, applyRealImageDimensions(render(page))));
 }
 
 /* 404 reuses the home shell but is never indexed. */
 written.push(
   writeFile(
     "404.html",
-    render({
+    applyRealImageDimensions(render({
       ...home,
       path: "",
       noindex: true,
       title: "Page Not Found | Callum's Mowing Laidley QLD",
       description:
         "That page doesn't exist. Head back to Callum's Mowing for lawn mowing, acreage mowing and garden maintenance across the Lockyer Valley.",
-    })
+    }))
   )
 );
 
@@ -96,5 +130,13 @@ written.push(
   )
 );
 
-console.log(`Built ${written.length} files:`);
-written.forEach((f) => console.log(`  ${f}`));
+console.log(`Built ${written.length} files.`);
+
+if (missingImages.size) {
+  console.warn(
+    `\nWARNING: ${missingImages.size} image(s) missing from ./img — ` +
+      `width/height left at template defaults:\n  ` +
+      [...missingImages].sort().join("\n  ") +
+      `\n\nRun \`npm run images\` to fetch them.\n`
+  );
+}

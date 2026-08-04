@@ -33,9 +33,30 @@ Filenames must match exactly — the pages reference them by name:
 | `trailer-mower.webp` | Home, Acreage galleries |
 | `driveway-gate.webp` | Edging hero, Garden Maintenance, Fence Line |
 
-## Before committing
+## Compression
 
-`hero-fleet.webp` is ~3.2 MB and `fleet-mowers.webp` ~1.7 MB in the Drive
-originals. Both are used above the fold, so compress them to roughly 200–400 KB
-at 1600px wide before shipping — otherwise they'll dominate Largest Contentful
-Paint on mobile.
+Already done for the two oversized files:
+
+| File | Drive original | Now |
+| --- | --- | --- |
+| `hero-fleet.webp` | 2500×970, 3174 KB | 1920×745, 279 KB |
+| `fleet-mowers.webp` | 2500×1875, 1624 KB | 1200×900, 399 KB |
+
+Total image weight is ~2.6 MB, down from 6.6 MB. Everything else was already
+under 210 KB and was left untouched.
+
+If you re-run `scripts/fetch-images.sh` it will overwrite these with the full-size
+Drive originals again — re-compress the two above before committing.
+
+## A note on resolution
+
+Apart from `hero-fleet.webp`, the Drive files are fairly low resolution — mostly
+429×572 to 572×762 portrait phone shots. Several are used as full-bleed hero
+backgrounds, where they're upscaled around 3.4× at desktop widths.
+
+The heavy dark scrim over the heroes hides this well and text stays perfectly
+legible, so it isn't a blocker. But if Callum still has the original camera
+files, dropping in higher-resolution versions of the hero shots — `verge-mown`,
+`acreage-garden`, `driveway-gate`, `clover-weeds`, `backyard-neat` — would
+visibly sharpen the service pages. Filenames just need to match; `build.js`
+reads dimensions from the files themselves, so nothing else has to change.

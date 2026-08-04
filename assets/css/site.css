@@ -65,6 +65,23 @@ body {
 
 img { display: block; max-width: 100%; }
 
+/* Photographs sit on a brand-green wash, so a slow or missing image reads as a
+   deliberate block of colour rather than a broken-image icon. Once the photo
+   paints it covers this completely. */
+.hero__media,
+.media-frame,
+.gallery img,
+.photo-stack img,
+.service-tile img,
+.ba img {
+  background-image: linear-gradient(135deg, #2f6b4f 0%, #5d9130 100%);
+  background-size: cover;
+  /* Keeps the alt text legible if a photo is missing entirely. */
+  color: rgba(246, 244, 239, 0.92);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 a { color: var(--green-link); text-decoration: underline; text-underline-offset: 3px; }
 a:hover { color: var(--forest); }
 
