@@ -174,6 +174,14 @@ function schemaBlocks(page) {
       "@type": "Place",
       name: `${a}, QLD`,
     })),
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: site.hours.days,
+        opens: site.hours.opens,
+        closes: site.hours.closes,
+      },
+    ],
     founder: { "@type": "Person", name: site.owner },
     sameAs: site.social,
     aggregateRating: {
@@ -350,6 +358,7 @@ function footer(p) {
         <a class="footer-phone" href="${site.phoneHref}">${site.phoneDisplay}</a>
         <a href="mailto:${site.email}">${site.email}</a>
         <span>${site.address.street}, ${site.address.locality} ${site.address.region} ${site.address.postcode}</span>
+        <span>${site.hours.display}</span>
         <a class="footer-cta" href="${p}contact/">Get a Free Quote</a>
       </div>
     </div>

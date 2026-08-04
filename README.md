@@ -177,10 +177,13 @@ native submit event fires either way.
    - Public liability cover amount (currently stated as "fully insured")
    - Indicative price ranges — per visit, per acre, per linear metre
    - Number of properties serviced
-   - Opening hours and days (also worth adding to the `LocalBusiness` schema)
    - Typical lead time for new bookings
    - Accepted payment methods
    - ABN, if it should be shown rather than "available on request"
+
+   Trading hours are confirmed — Mon–Sat 6:30am–5pm — and live in
+   `site.hours` in `src/data.js`. Changing them there updates the contact page
+   row, the footer and the `openingHoursSpecification` in the schema together.
 3. **Point `site.origin`** in `src/data.js` at the final domain if it isn't
    `https://www.callumsmowing.com.au`.
 4. **Submit `sitemap.xml`** in Google Search Console and link the Google

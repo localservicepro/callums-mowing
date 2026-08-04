@@ -28,6 +28,21 @@ const site = {
 
   geo: { lat: -27.6317, lng: 152.3936 },
 
+  /** Trading hours. `display` is what the page shows; the rest feeds schema. */
+  hours: {
+    display: "Mon–Sat 6:30am–5pm",
+    days: [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ],
+    opens: "06:30",
+    closes: "17:00",
+  },
+
   rating: { value: "5.0", count: 25 },
 
   social: ["https://www.facebook.com/profile.php?id=61577312751456"],
