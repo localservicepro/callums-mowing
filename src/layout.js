@@ -399,7 +399,11 @@ function footer(p) {
 /* --------------------------------------------------------------- document */
 
 function render(page) {
-  const p = prefixFor(page.path);
+  /* `prefix` overrides the depth-derived one. The 404 page needs it: it is
+     served from whatever URL was missed, so relative asset paths would resolve
+     against that path and 404 as well, leaving the page unstyled. It uses "/"
+     instead so its links are root-absolute. */
+  const p = page.prefix !== undefined ? page.prefix : prefixFor(page.path);
   const canonical = urlFor(page.path);
 
   return `<!DOCTYPE html>

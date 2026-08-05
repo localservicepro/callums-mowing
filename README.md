@@ -229,6 +229,37 @@ native submit event fires either way.
 
 ## Deploying
 
-Any static host works — Netlify, Cloudflare Pages, GitHub Pages, Vercel or
-plain nginx. Serve the repository root; no build step or runtime is needed.
-Make sure the host serves `404.html` for unmatched routes.
+The generated HTML is committed at the repo root, so hosts that serve a
+repository as-is — GitHub Pages, plain nginx, any FTP upload — need no build
+step or runtime at all. Point them at the root and make sure `404.html` is
+served for unmatched routes.
+
+### Vercel (and anything else expecting a build output directory)
+
+Vercel runs a build and publishes one directory, so `vercel.json` is committed:
+
+```json
+{
+  "framework": null,
+  "buildCommand": "npm run build:vercel",
+  "outputDirectory": "public",
+  "trailingSlash": true
+}
+```
+
+`npm run build:vercel` regenerates the HTML, then `scripts/collect-public.js`
+copies exactly the files that should be served into `public/` — HTML, assets,
+images, favicons, `sitemap.xml`, `robots.txt` — and nothing else, so `src/`,
+`scripts/`, `build.js` and this README never reach the public site.
+
+`public/` is generated and git-ignored. Don't edit it; edit `src/` and rebuild.
+If you add a new top-level file or folder that should ship, add it to the
+`FILES` or `DIRS` list in `scripts/collect-public.js`, or it silently won't
+deploy — the script logs a warning for anything it expected but couldn't find,
+and fails the build outright if `index.html` is missing.
+
+`trailingSlash: true` matches how the pages link to each other (`/contact/`,
+not `/contact`), so Vercel redirects rather than serving both.
+
+Netlify and Cloudflare Pages work the same way: build command
+`npm run build:vercel`, publish directory `public`.

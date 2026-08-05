@@ -94,6 +94,8 @@ written.push(
     applyRealImageDimensions(render({
       ...home,
       path: "",
+      // Served from any missed URL, so its links must be root-absolute.
+      prefix: "/",
       noindex: true,
       title: "Page Not Found | Callum's Mowing Laidley QLD",
       description:
